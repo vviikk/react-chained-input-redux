@@ -20,9 +20,9 @@ const ChainedInput = (props) => {
   return (
     <>
       {fieldsM.map(field =>
-        <div>
+        <div key={field.name}>
           <label>{field.title}</label>
-          <Select key={field.name} loadOptions={field.fetchFunc} />
+          <Select loadOptions={field.fetchFunc} />
         </div>)}
       <pre>
         {JSON.stringify(fieldsM, null, 2)}

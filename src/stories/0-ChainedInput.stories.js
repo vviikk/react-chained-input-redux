@@ -9,8 +9,10 @@ export default {
 }
 
 const getPosts = async (url) => {
+  console.log('asd')
   const response = await fetch(url)
   const data = await response.json()
+  debugger // eslint-disable-line
   return data
 }
 
@@ -20,7 +22,7 @@ const fields = [
     title: 'posts',
     endpoint: 'https://jsonplaceholder.typicode.com/posts',
     type: 'select',
-    fetcFunc: getPosts
+    fetchFunc: getPosts
   },
   {
     name: 'comments',
