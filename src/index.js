@@ -18,12 +18,16 @@ const ChainedInput = (props) => {
   )
 
   return (
-    <React.Fragment>
-      {fieldsM.map(field => <Select key={field.name} loadOptions={field.fetchFunc} />)}
+    <>
+      {fieldsM.map(field =>
+        <div>
+          <label>{field.title}</label>
+          <Select key={field.name} loadOptions={field.fetchFunc} />
+        </div>)}
       <pre>
         {JSON.stringify(fieldsM, null, 2)}
       </pre>
-    </React.Fragment>
+    </>
   )
 }
 
