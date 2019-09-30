@@ -1,22 +1,34 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
+import pathToRegExp from 'path-to-regexp'
+import Select from 'react-select/async'
 
-import styles from './styles.css'
+const ChainedInput = (props) => {
+  const {
+    fields
+  } = props
 
-export default class ExampleComponent extends Component {
-  static propTypes = {
-    text: PropTypes.string
-  }
-
-  render() {
-    const {
-      text
-    } = this.props
-
-    return (
-      <div className={styles.test}>
-        Example Component: {text}
-      </div>
+  const fieldsM = fields.map(
+    field => (
+      {
+        ...field,
+        pathData: pathToRegExp.parse(field.endpoint)
+      }
     )
-  }
+  )
+
+  return (
+    <React.Fragment>
+      {fieldsM.map(field => <Select key={field.name} loadOptions={field.fetchFunc} />)}
+      <pre>
+        {JSON.stringify(fieldsM, null, 2)}
+      </pre>
+    </React.Fragment>
+  )
 }
+
+ChainedInput.propTypes = {
+  fields: PropTypes.arrayOf(PropTypes.object)
+}
+
+export default ChainedInput
