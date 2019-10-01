@@ -9,11 +9,15 @@ export default {
 }
 
 const getPosts = async (url) => {
-  console.log('asd')
   const response = await fetch(url)
   const data = await response.json()
-  debugger // eslint-disable-line
-  return data
+  return data.map(post => ({value: `${post.id}`, label: post.title.split(' ').slice(0, 2).join(' ')}))
+}
+
+const getComments = async (url) => {
+  const response = await fetch(url)
+  const data = await response.json()
+  return data.map(comment => ({value: `${comment.id}`, name: 'asd'}))
 }
 
 const fields = [
@@ -22,17 +26,24 @@ const fields = [
     title: 'posts',
     endpoint: 'https://jsonplaceholder.typicode.com/posts',
     type: 'select',
-    fetchFunc: getPosts
+    placeholder: 'Select post',
+    fetchFunc: getPosts,
+    defaultValue: { label: 'label', value: '-6' }
   },
   {
-    name: 'comments',
+    name: 'comment',
     title: 'comments field',
-    endpoint: 'https://jsonplaceholder.typicode.com/posts/:post/comments'
+    endpoint: 'https://jsonplaceholder.typicode.com/posts/:post/comments',
+    fetchFunc: getComments,
+    shouldLoad: state => state['post']
   }
 ]
 
+const defaultState = {
+}
+
 export const ChainedInputStory = () => (
-  <ChainedInput onDone={action} fields={fields} />
+  <ChainedInput onDone={action} fields={fields} defaultState={defaultState} />
 )
 
 ChainedInputStory.story = {
